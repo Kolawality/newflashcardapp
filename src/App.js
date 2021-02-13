@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import Card from './Card/Card';
+import DrawButton from './DrawButton/DrawButton';
 import './App.css';
+
+import { DB_CONFIG } from './Config/Firebase/db_config';
 
 class App extends Component {
 
   constructor(props){
     super(props);
+
+    this.updateCard = this.updateCard.bind(this);
 
     this.state = {
       cards: [
@@ -37,13 +42,25 @@ class App extends Component {
     return(card);
   }
 
+  updateCard(){
+    const currentCards = this.state.cards;    
+    this.setState({
+      currentCard: this.getRandomCard(currentCards)
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <Card 
-          question={this.state.currentCard.question} 
-          answer={this.state.currentCard.answer}
-        />
+        <div className="cardRow">
+          <Card 
+            question={this.state.currentCard.question} 
+            answer={this.state.currentCard.answer}
+          />
+        </div>
+        <div classname="buttonRow">
+          <DrawButton drawCard={this.updateCard}/>
+        </div>
       </div>
     );  
   }
